@@ -39,6 +39,8 @@ RUN mkdir -p /compiler && cd /compiler &&\
 	chown -R bytebox /compiler
 ENV path=$PATH:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin
 
+RUN cd /compile && git clone https://github.com/cisco/ChezScheme.git && cd ChezSchenme && ./configure && make install
+
 USER bytebox
 WORKDIR /bytebox
 VOLUME /playground
