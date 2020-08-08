@@ -39,7 +39,7 @@ RUN mkdir -p /compiler && cd /compiler &&\
 	chown -R bytebox /compiler
 ENV path=$PATH:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin
 
-RUN cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure && make install
+RUN cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make &&make install
 
 USER bytebox
 WORKDIR /bytebox
