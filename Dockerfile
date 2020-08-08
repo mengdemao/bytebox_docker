@@ -1,5 +1,4 @@
 FROM archlinux
-RUN mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak && echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
 RUN pacman --noconfirm  -Syu &&	      \
 	pacman -S --need --noconfirm  \
 	gcc			      \
@@ -27,17 +26,45 @@ RUN pacman --noconfirm  -Syu &&	      \
 	cmake			      \
 	scons			      \
 	doxygen			      \
-	hugo
+	hugo			      \
+	tar			      \
+	sudo			      \
+	pacman			      \
+	go			      \
+	rust			      \
+	base-devel
 
-RUN useradd -m -s /bin/bash bytebox && passwd -d bytebox
-RUN mkdir -p /bytebox && cd / && chown -R bytebox /bytebox
-RUN mkdir -p /compiler && cd /compiler && mkdir
-USER bytebox
+RUN useradd -m -s /bin/bash bytebox &&\
+	passwd -d bytebox &&\
+	echo "bytebox      ALL = NOPASSWD: ALL" >> /etc/sudoers &&\
+	sed -i 's,#MAKEFLAGS="-j2",MAKEFLAGS="-j$(nproc)",g' /etc/makepkg.conf &&\
+	sed -i "s,PKGEXT='.pkg.tar.xz',PKGEXT='.pkg.tar',g" /etc/makepkg.conf
+
+RUN mkdir -p /bytebox && cd / && chown -R bytebox:bytebox /bytebox
 WORKDIR /bytebox
+
+RUN mkdir -p /compiler && cd /compiler &&\
+	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabihf/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz &&\
+	tar -vxf gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz -C /compiler &&\
+	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabi/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz &&\
+	tar -vxf gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
+	chown -R bytebox /compiler
+ENV path=$PATH:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin
+
+RUN cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make &&make install
+
+USER bytebox
+RUN cd /bytebox &&\
+	git clone https://aur.archlinux.org/yay.git &&\
+	pushd yay &&\
+	makepkg --noconfirm -si &&\
+	popd
+
+VOLUME /playground
 
 COPY ./entrypoint.sh ./entrypoint.sh
 USER root
 RUN ["chmod", "+x", "./entrypoint.sh"]
 USER bytebox
 
-#ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
