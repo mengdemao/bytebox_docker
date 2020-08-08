@@ -1,5 +1,4 @@
 FROM archlinux
-RUN mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak && echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch' >> /etc/pacman.d/mirrorlist
 RUN pacman --noconfirm  -Syu &&	      \
 	pacman -S --need --noconfirm  \
 	gcc			      \
@@ -32,11 +31,11 @@ RUN pacman --noconfirm  -Syu &&	      \
 
 RUN useradd -m -s /bin/bash bytebox && passwd -d bytebox
 RUN mkdir -p /bytebox && cd / && chown -R bytebox /bytebox
-RUN mkdir -p /compiler && cd /compiler &&
-	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabihf/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz -O arm-linux-gnueabihf.tar.xz &&
-	tar -vxf arm-linux-gnueabihf.tar.xz -C /compiler &&
-	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabi/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz -O arm-linux-gnueabi.tar.xz &&
-	tar -vxf arm-linux-gnueabi.tar.xz -C /compiler &&
+RUN mkdir -p /compiler && cd /compiler &&\
+	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabihf/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf.tar.xz -O arm-linux-gnueabihf.tar.xz &&\
+	tar -vxf arm-linux-gnueabihf.tar.xz -C /compiler &&\
+	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabi/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz -O arm-linux-gnueabi.tar.xz &&\
+	tar -vxf arm-linux-gnueabi.tar.xz -C /compiler &&\
 	chown -R bytebox /compiler
 ENV path =$PATH:/compiler/arm-linux-gnueabihf:/compiler/arm-linux-gnueabi
 
