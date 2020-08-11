@@ -27,10 +27,10 @@ RUN pacman --noconfirm  -Syu &&	      \
 	scons			      \
 	doxygen			      \
 	hugo			      \
-	tar					  \
-	sudo				  \
-	pacman				  \
-	go					  \
+	tar			      \
+	sudo			      \
+	pacman			      \
+	go			      \
 	rust
 
 RUN useradd -m -s /bin/bash bytebox &&\
@@ -39,7 +39,6 @@ RUN useradd -m -s /bin/bash bytebox &&\
 	sed -i 's,#MAKEFLAGS="-j2",MAKEFLAGS="-j$(nproc)",g' /etc/makepkg.conf &&\
 	sed -i "s,PKGEXT='.pkg.tar.xz',PKGEXT='.pkg.tar',g" /etc/makepkg.conf
 
-USER bytebox
 RUN mkdir -p /bytebox && cd / && chown -R bytebox:bytebox /bytebox
 WORKDIR /bytebox
 
@@ -53,6 +52,7 @@ ENV path=$PATH:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin:/
 
 RUN cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make &&make install
 
+USER bytebox
 RUN su bytebox -c 'cd /bytebox; git clone https://aur.archlinux.org/yay.git' &&\
 	su bytebox -c 'cd /bytebox; cd yay; makepkg' &&\
 	pushd /bytebox/yay/ &&\
