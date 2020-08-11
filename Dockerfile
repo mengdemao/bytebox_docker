@@ -57,7 +57,7 @@ USER bytebox
 RUN cd /bytebox &&\
 	git clone https://aur.archlinux.org/yay.git &&\
 	pushd yay &&\
-	makepkg &&\
+	makepkg -si &&\
 	popd
 
 VOLUME /playground
