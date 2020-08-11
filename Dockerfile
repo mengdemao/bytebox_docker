@@ -31,7 +31,8 @@ RUN pacman --noconfirm  -Syu &&	      \
 	sudo			      \
 	pacman			      \
 	go			      \
-	rust
+	rust			      \
+	base-devel
 
 RUN useradd -m -s /bin/bash bytebox &&\
 	passwd -d bytebox &&\
@@ -53,13 +54,14 @@ ENV path=$PATH:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin:/
 RUN cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make &&make install
 
 USER bytebox
-RUN su bytebox -c 'cd /bytebox; git clone https://aur.archlinux.org/yay.git' &&\
-	su bytebox -c 'cd /bytebox; cd yay; makepkg' &&\
-	pushd /bytebox/yay/ &&\
-	pacman -U *.pkg.tar --noprogressbar --noconfirm &&\
+RUN cd /bytebox &&\
+	git clone https://aur.archlinux.org/yay.git &&\
+	pushd yay &&\
+	makepkg &&\
+	sudo pacman -U *.pkg.tar --noprogressbar --noconfirm &&\
 	popd &&\
-	rm -rf /bytebox/yay &&\
-	su bytebox -c 'yay -Syyu --noprogressbar --noconfirm --needed'
+	rm -rf yay &&\
+	sudo yay -Syyu --noprogressbar --noconfirm --needed
 
 VOLUME /playground
 
