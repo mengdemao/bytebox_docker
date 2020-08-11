@@ -58,10 +58,7 @@ RUN cd /bytebox &&\
 	git clone https://aur.archlinux.org/yay.git &&\
 	pushd yay &&\
 	makepkg &&\
-	sudo pacman -U *.pkg.tar --noprogressbar --noconfirm &&\
-	popd &&\
-	rm -rf yay &&\
-	sudo yay -Syyu --noprogressbar --noconfirm --needed
+	popd
 
 VOLUME /playground
 
