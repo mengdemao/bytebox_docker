@@ -58,9 +58,8 @@ RUN su bytebox -c 'cd /bytebox; git clone https://aur.archlinux.org/yay.git' &&\
 	pushd /bytebox/yay/ &&\
 	pacman -U *.pkg.tar --noprogressbar --noconfirm &&\
 	popd &&\
-	rm -rf /bytebox/yay
-
-su bytebox -c 'yay -Syyu --noprogressbar --noconfirm --needed'
+	rm -rf /bytebox/yay &&\
+	su bytebox -c 'yay -Syyu --noprogressbar --noconfirm --needed'
 
 VOLUME /playground
 
