@@ -53,7 +53,7 @@ RUN mkdir -p /compiler && cd /compiler &&\
 	wget https://releases.linaro.org/components/toolchain/binaries/4.9-2017.01/arm-linux-gnueabi/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz &&\
 	tar -vxf gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
 	cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make && make install &&\
-	cd /compiler && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && python -m pip install -r requirements.txt && ./install.sh &&\
+	cd /compiler && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh &&\
 	sudo echo "PATH=$PATH:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin" >> /etc/profile &&\
 	sudo echo ". /compiler/esp-idf/export.sh" >> /etc/profile
 
