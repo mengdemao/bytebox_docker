@@ -61,7 +61,7 @@ RUN cd /bytebox &&\
 	pushd yay &&\
 	makepkg --noconfirm -si &&\
 	popd &&\
-	cd /compiler && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh &&\
+	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh &&\
 	sudo echo ". /bytebox/esp-idf/export.sh" >> /etc/profile
 
 VOLUME /playground
