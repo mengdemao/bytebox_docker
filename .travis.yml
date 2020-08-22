@@ -1,6 +1,6 @@
 language: bash
 
-dist: xenial
+dist: focal
 
 services:
     - docker
@@ -13,3 +13,9 @@ script:
 
 after_success:
     - docker push mengdemao/bytebox:latest
+
+deploy:
+  provider: script
+  script: docker push mengdemao/bytebox:latest
+  on:
+    tags: true
