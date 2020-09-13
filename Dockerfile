@@ -43,7 +43,9 @@ RUN pacman --noconfirm  -Syu &&	      \
 	zsh			      \
 	neofetch		      \
 	python-virtualenv	      \
-	python-pip
+	python-pip				\
+	help2man				\
+	lzip
 
 USER root
 RUN useradd -m -s /bin/bash bytebox &&\
@@ -69,8 +71,18 @@ RUN cd /bytebox &&\
 	pushd yay &&\
 	makepkg --noconfirm -si &&\
 	popd &&\
-	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh
-
+	rm -rf yay &&\
+	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh &&\
+	git clone https://github.com/crosstool-ng/crosstool-ng &&\
+	pushd crosstool-ng &&\
+	./bootstrap &&\
+	./configure &&\
+	make &&\
+	sudo make install &&\	
+	popd &&\
+	rm -rf crosstool-ng &&\
+	ct-ng arm-cortexa9_neon-linux-gnueabihf &&\
+	ct-ng build
 
 VOLUME /playground
 
