@@ -60,7 +60,7 @@ RUN mkdir -p /compiler && cd /compiler &&\
 	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz -C /compiler &&\
 	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabi/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz 2>&1 >/dev/null &&\
 	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
-	cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make && make install &&\
+	cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make 2>&1 >/dev/null && make install &&\
 	sudo echo ". /bytebox/esp-idf/export.sh" >> /etc/profile &&\
 	sudo echo "export PATH=$PATH:/compiler/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf/bin" >> /etc/profile &&\
 	mkdir -p /bytebox && cd / && chown -R bytebox:bytebox /bytebox
@@ -75,16 +75,16 @@ RUN cd /bytebox &&\
 	rm -rf yay &&\
 	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh
 
-RUN	git clone https://github.com/crosstool-ng/crosstool-ng &&\
-	pushd crosstool-ng &&\
-	./bootstrap &&\
-	./configure &&\
-	make &&\
-	sudo make install &&\	
-	popd &&\
-	rm -rf crosstool-ng &&\
-	ct-ng arm-cortexa9_neon-linux-gnueabihf &&\
-	ct-ng build
+# RUN	git clone https://github.com/crosstool-ng/crosstool-ng &&\
+# 	pushd crosstool-ng &&\
+# 	./bootstrap &&\
+# 	./configure &&\
+# 	make &&\
+# 	sudo make install &&\	
+# 	popd &&\
+# 	rm -rf crosstool-ng &&\
+# 	ct-ng arm-cortexa9_neon-linux-gnueabihf &&\
+# 	ct-ng build
 
 VOLUME /playground
 
