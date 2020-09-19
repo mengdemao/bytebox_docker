@@ -56,9 +56,9 @@ RUN useradd -m -s /bin/bash bytebox &&\
 
 RUN mkdir -p /compiler && cd /compiler &&\
 	wget https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabihf/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz &&\
-	tar -vxf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz -C /compiler &&\
+	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz -C /compiler &&\
 	wget https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabi/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz &&\
-	tar -vxf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
+	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
 	cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make && make install &&\
 	sudo echo ". /bytebox/esp-idf/export.sh" >> /etc/profile &&\
 	sudo echo "export PATH=$PATH:/compiler/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf/bin" >> /etc/profile &&\
