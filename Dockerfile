@@ -56,9 +56,9 @@ RUN useradd -m -s /bin/bash bytebox &&\
 	sed -i "s,PKGEXT='.pkg.tar.xz',PKGEXT='.pkg.tar',g" /etc/makepkg.conf
 
 RUN mkdir -p /compiler && cd /compiler &&\
-	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabihf/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz &&\
+	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabihf/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz 2>&1 >/dev/null &&\
 	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz -C /compiler &&\
-	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabi/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz &&\
+	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabi/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz 2>&1 >/dev/null &&\
 	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
 	cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make && make install &&\
 	sudo echo ". /bytebox/esp-idf/export.sh" >> /etc/profile &&\
