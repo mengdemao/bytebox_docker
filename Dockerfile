@@ -72,8 +72,9 @@ RUN cd /bytebox &&\
 	makepkg --noconfirm -si &&\
 	popd &&\
 	rm -rf yay &&\
-	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh &&\
-	git clone https://github.com/crosstool-ng/crosstool-ng &&\
+	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh
+
+RUN	git clone https://github.com/crosstool-ng/crosstool-ng &&\
 	pushd crosstool-ng &&\
 	./bootstrap &&\
 	./configure &&\
