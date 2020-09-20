@@ -6,47 +6,47 @@ ARG COMPILER_BUILD_YEAR=2019
 ARG COMPILER_BUILD_MON=12
 ARG COMPILER_BUILD_DAY=0
 
-RUN pacman --noconfirm  -Syu &&	      \
-	pacman -S --need --noconfirm  \
-	gcc			      \
-	clang			      \
-	llvm			      \
-	vim			      \
-	grep			      \
-	sed			      \
-	gawk			      \
-	uboot-tools		      \
-	autoconf		      \
-	automake		      \
-	bison			      \
-	bzip2			      \
-	flex			      \
-	git			      \
-	gperf			      \
-	make			      \
-	python			      \
-	texinfo			      \
-	unrar			      \
-	unzip			      \
-	wget			      \
-	sudo			      \
-	cmake			      \
-	scons			      \
-	doxygen			      \
-	hugo			      \
-	tar			      \
-	sudo			      \
-	pacman			      \
-	go			      \
-	rust			      \
-	base-devel		      \
-	zsh			      \
-	neofetch		      \
-	python-virtualenv	      \
-	python-pip				\
-	help2man				\
-	lzip					\
-	axel
+RUN pacman --noconfirm  -Syu &&			\
+	pacman -S --need --noconfirm		\
+	clang								\
+	llvm								\
+	vim									\
+	grep								\
+	sed									\
+	gawk								\
+	uboot-tools							\
+	autoconf							\
+	automake							\
+	bison								\
+	bzip2								\
+	flex								\
+	git									\
+	gperf								\
+	make								\
+	python								\
+	texinfo								\
+	unrar								\
+	unzip								\
+	wget								\
+	sudo								\
+	cmake								\
+	scons								\
+	doxygen								\
+	hugo								\
+	tar									\
+	sudo								\
+	pacman								\
+	go									\
+	rust								\
+	base-devel							\
+	zsh									\
+	neofetch							\
+	python-virtualenv					\
+	python-pip							\
+	help2man							\
+	lzip								\
+	axel								\
+	rsync
 
 USER root
 RUN useradd -m -s /bin/bash bytebox &&\
@@ -75,16 +75,16 @@ RUN cd /bytebox &&\
 	rm -rf yay &&\
 	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh
 
-# RUN	git clone https://github.com/crosstool-ng/crosstool-ng &&\
-# 	pushd crosstool-ng &&\
-# 	./bootstrap &&\
-# 	./configure &&\
-# 	make &&\
-# 	sudo make install &&\	
-# 	popd &&\
-# 	rm -rf crosstool-ng &&\
-# 	ct-ng arm-cortexa9_neon-linux-gnueabihf &&\
-# 	ct-ng build
+RUN	git clone https://github.com/crosstool-ng/crosstool-ng &&\
+	pushd crosstool-ng &&\
+	./bootstrap &&\
+	./configure &&\
+	make &&\
+	sudo make install &&\	
+	popd &&\
+	rm -rf crosstool-ng &&\
+	ct-ng arm-cortexa9_neon-linux-gnueabihf &&\
+	ct-ng build
 
 VOLUME /playground
 
