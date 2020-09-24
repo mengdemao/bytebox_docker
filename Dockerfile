@@ -75,17 +75,6 @@ RUN cd /bytebox &&\
 	rm -rf yay &&\
 	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh
 
-RUN	git clone https://github.com/crosstool-ng/crosstool-ng &&\
-	pushd crosstool-ng &&\
-	./bootstrap &&\
-	./configure &&\
-	make &&\
-	sudo make install &&\	
-	popd &&\
-	rm -rf crosstool-ng &&\
-	ct-ng arm-cortexa9_neon-linux-gnueabihf &&\
-	ct-ng build
-
 VOLUME /playground
 
 COPY ./entrypoint.sh ./entrypoint.sh
