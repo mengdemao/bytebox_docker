@@ -56,13 +56,6 @@ RUN useradd -m -s /bin/bash bytebox &&\
 	sed -i "s,PKGEXT='.pkg.tar.xz',PKGEXT='.pkg.tar',g" /etc/makepkg.conf
 
 RUN mkdir -p /compiler && cd /compiler &&\
-	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabihf/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz 2>&1 >/dev/null &&\
-	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf.tar.xz -C /compiler &&\
-	axel https://releases.linaro.org/components/toolchain/binaries/${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}/arm-linux-gnueabi/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz 2>&1 >/dev/null &&\
-	tar -xf gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi.tar.xz -C /compiler &&\
-	cd /compiler && git clone https://github.com/cisco/ChezScheme.git && cd ChezScheme && ./configure --disable-x11 --disable-curses && make 2>&1 >/dev/null && make install &&\
-	sudo echo ". /bytebox/esp-idf/export.sh" >> /etc/profile &&\
-	sudo echo "export PATH=$PATH:/compiler/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabi/bin:/compiler/gcc-linaro-${COMPILER_VERSION_MAJOR}.${COMPILER_VERSION_MINOR}.${COMPILER_VERSION_PATCH}-${COMPILER_BUILD_YEAR}.${COMPILER_BUILD_MON}-x86_64_arm-linux-gnueabihf/bin" >> /etc/profile &&\
 	mkdir -p /bytebox && cd / && chown -R bytebox:bytebox /bytebox
 
 USER bytebox
@@ -72,8 +65,7 @@ RUN cd /bytebox &&\
 	pushd yay &&\
 	makepkg --noconfirm -si &&\
 	popd &&\
-	rm -rf yay &&\
-	cd /bytebox && git clone --recursive https://github.com/espressif/esp-idf.git && cd esp-idf/ && ./install.sh
+	rm -rf yay
 
 VOLUME /playground
 
